@@ -2,14 +2,18 @@
 app.py - Corporate Frontend Configuration for Smart Recruitment Assistant
 """
 
+import os
 import streamlit as st
+from dotenv import load_dotenv
 from agents import ResumeAnalysisAgent, ROLE_KEYWORDS
+
+load_dotenv()
 
 st.set_page_config(page_title="Recruitment Assistant", layout="wide")
 
 st.sidebar.header("Configuration Settings")
 
-api_key = st.sidebar.text_input("Groq API Key:", type="password", help="Enter a valid console.groq.com API token.")
+api_key = os.getenv("GROQ_API_KEY", "")
 cut_off = st.sidebar.slider("Minimum Screening Threshold", min_value=50, max_value=90, value=70, step=5)
 
 role_options = list(ROLE_KEYWORDS.keys())
