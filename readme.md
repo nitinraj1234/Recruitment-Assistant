@@ -2,8 +2,6 @@
 
 A resume screening and interview preparation tool built with Streamlit, LangChain, and Groq. It takes a candidate's resume, scores it against a target role or a custom job description, and generates interview questions and improvement suggestions — all without storing any data between sessions.
 
-No API key is required. The app is ready to use directly.
-
 Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
