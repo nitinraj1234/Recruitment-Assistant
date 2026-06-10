@@ -52,9 +52,9 @@ if uploaded_file and 'agent' in st.session_state:
         else:
             st.error(f"Processing error: {text_content}")
 
-# ─────────────────────────────────────────────────────────────
+
 # TAB 1: RESUME ALIGNMENT MATRIX
-# ─────────────────────────────────────────────────────────────
+
 with tab1:
     st.header("Evaluation Analytics Summary")
     if st.button("Run Profile Analysis", key="run_analysis"):
@@ -80,9 +80,9 @@ with tab1:
         else:
             st.warning("Profile extraction requirements incomplete. Verify file inputs.")
 
-# ─────────────────────────────────────────────────────────────
+
 # TAB 2: HIGH-ACCURACY DOCUMENT VERIFICATION Q&A
-# ─────────────────────────────────────────────────────────────
+
 with tab2:
     st.header("Profile Validation Terminal")
     user_query = st.text_input("Enter explicit evaluation question:", placeholder="e.g., What is the candidate's name? List all listed projects.")
@@ -99,9 +99,9 @@ with tab2:
         else:
             st.warning("Processing baseline profile context missing. Upload a document first.")
 
-# ─────────────────────────────────────────────────────────────
+
 # TAB 3: TECHNICAL ASSESSMENT GENERATION
-# ─────────────────────────────────────────────────────────────
+
 with tab3:
     st.header("Target Screening Question Generator")
     q_type = st.selectbox("Structural Logic Domain", ["Technical", "Behavioral", "Situational"])
@@ -116,9 +116,9 @@ with tab3:
         else:
             st.warning("Processing baseline profile context missing.")
 
-# ─────────────────────────────────────────────────────────────
+
 # TAB 4: OPTIMIZATION REFINEMENT STRATEGY
-# ─────────────────────────────────────────────────────────────
+
 with tab4:
     st.header("Profile Content Refinement Specifications")
     target_section = st.selectbox("Target Content Domain", ["Professional Summary", "Work Experience", "Projects", "Skills Layout"])
