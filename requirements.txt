@@ -10,8 +10,7 @@ python-dotenv==1.0.0
 matplotlib==3.8.0
 langchain-groq==0.1.9
 langchain-huggingface==0.0.3
-sentence-transformers==2.6.0
-torch==2.1.0
-transformers==4.36.0
-tokenizers==0.15.0
-huggingface-hub==0.20.3
+sentence-transformers>=2.6.0
+torch>=2.2.0
+transformers>=4.39.0
+huggingface-hub>=0.23.0
