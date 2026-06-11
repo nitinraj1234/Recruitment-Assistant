@@ -23,6 +23,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 load_dotenv()
 
 ROLE_KEYWORDS = {
+    # ── Original roles ──────────────────────────────────────────
     "AI Engineer": [
         "python", "machine learning", "deep learning", "tensorflow", "pytorch",
         "nlp", "computer vision", "mlops", "hugging face", "reinforcement learning",
@@ -64,6 +65,135 @@ ROLE_KEYWORDS = {
         "sql", "excel", "python", "tableau", "power bi", "statistics",
         "data visualization", "pandas", "reporting", "a/b testing",
         "google analytics", "looker", "r"
+    ],
+
+    # ── Software Engineering ─────────────────────────────────────
+    "Software Engineer": [
+        "python", "java", "c++", "data structures", "algorithms", "object oriented programming",
+        "system design", "rest api", "sql", "git", "testing", "debugging",
+        "agile", "code review", "design patterns", "multithreading"
+    ],
+    "Software Development Engineer (SDE)": [
+        "data structures", "algorithms", "c++", "java", "python", "system design",
+        "object oriented design", "dynamic programming", "graphs", "trees",
+        "rest api", "sql", "git", "low level design", "high level design"
+    ],
+    "Mobile Engineer (Android)": [
+        "android", "kotlin", "java", "android sdk", "jetpack compose", "mvvm",
+        "retrofit", "room database", "coroutines", "firebase", "gradle",
+        "material design", "rest api", "unit testing", "google play"
+    ],
+    "Mobile Engineer (iOS)": [
+        "swift", "ios", "xcode", "swiftui", "uikit", "core data", "combine",
+        "mvvm", "rest api", "cocoapods", "spm", "firebase", "app store",
+        "objective-c", "instruments", "testing"
+    ],
+    "Embedded Systems Engineer": [
+        "c", "c++", "rtos", "microcontrollers", "arm", "embedded linux",
+        "uart", "spi", "i2c", "can bus", "firmware", "bare metal",
+        "signal processing", "hardware debugging", "oscilloscope", "pcb"
+    ],
+    "Systems Engineer": [
+        "linux", "c", "c++", "operating systems", "memory management", "networking",
+        "tcp/ip", "multithreading", "concurrency", "system calls", "kernel",
+        "performance tuning", "bash scripting", "gdb", "valgrind"
+    ],
+
+    # ── Cloud & Infrastructure ───────────────────────────────────
+    "Cloud Engineer": [
+        "aws", "gcp", "azure", "terraform", "kubernetes", "docker",
+        "cloud architecture", "iam", "vpc", "load balancing", "auto scaling",
+        "s3", "ec2", "lambda", "cloud security", "cost optimization"
+    ],
+    "Site Reliability Engineer (SRE)": [
+        "sre", "linux", "python", "go", "kubernetes", "docker", "prometheus",
+        "grafana", "incident management", "slo", "sli", "error budget",
+        "terraform", "ci/cd", "on-call", "chaos engineering", "observability"
+    ],
+    "Platform Engineer": [
+        "kubernetes", "helm", "terraform", "ci/cd", "docker", "aws",
+        "internal developer platform", "argocd", "github actions", "linux",
+        "python", "bash", "observability", "service mesh", "istio"
+    ],
+    "Network Engineer": [
+        "tcp/ip", "bgp", "ospf", "vlans", "routing", "switching",
+        "cisco", "firewalls", "network security", "vpn", "dns", "dhcp",
+        "load balancers", "wireshark", "network automation", "python"
+    ],
+    "Security Engineer": [
+        "penetration testing", "owasp", "siem", "vulnerability assessment",
+        "network security", "cryptography", "identity management", "oauth",
+        "aws security", "incident response", "threat modeling", "firewalls",
+        "python", "burp suite", "zero trust"
+    ],
+
+    # ── Data & ML ────────────────────────────────────────────────
+    "ML Engineer": [
+        "python", "machine learning", "pytorch", "tensorflow", "scikit-learn",
+        "mlops", "model training", "feature engineering", "model deployment",
+        "docker", "kubernetes", "airflow", "aws sagemaker", "experiment tracking",
+        "mlflow", "data pipelines", "a/b testing"
+    ],
+    "Computer Vision Engineer": [
+        "python", "opencv", "pytorch", "tensorflow", "yolo", "cnn",
+        "image segmentation", "object detection", "image classification",
+        "data augmentation", "cuda", "onnx", "model deployment", "deep learning"
+    ],
+    "NLP Engineer": [
+        "python", "nlp", "transformers", "hugging face", "bert", "gpt",
+        "text classification", "named entity recognition", "summarization",
+        "langchain", "rag", "llm", "fine-tuning", "spacy", "tokenization"
+    ],
+    "Generative AI Engineer": [
+        "llm", "langchain", "rag", "prompt engineering", "fine-tuning",
+        "openai api", "hugging face", "vector database", "pinecone", "faiss",
+        "python", "langsmith", "agents", "function calling", "embeddings"
+    ],
+
+    # ── Mechanical & Civil ───────────────────────────────────────
+    "Mechanical Engineer": [
+        "autocad", "solidworks", "catia", "ansys", "fea", "cfd",
+        "thermodynamics", "fluid mechanics", "manufacturing", "gd&t",
+        "materials science", "design for manufacturing", "matlab", "heat transfer"
+    ],
+    "Civil Engineer": [
+        "autocad", "staad pro", "revit", "structural analysis", "concrete design",
+        "steel design", "foundation design", "surveying", "project management",
+        "quantity estimation", "construction management", "ms project", "is codes"
+    ],
+    "Structural Engineer": [
+        "structural analysis", "staad pro", "etabs", "safe", "revit",
+        "concrete design", "steel design", "earthquake engineering",
+        "foundation design", "finite element analysis", "is codes", "eurocode"
+    ],
+
+    # ── Electrical & Electronics ─────────────────────────────────
+    "Electrical Engineer": [
+        "circuit design", "power systems", "autocad electrical", "plc",
+        "scada", "matlab", "simulink", "protection systems", "transformers",
+        "motor drives", "renewable energy", "high voltage", "load flow"
+    ],
+    "Electronics Engineer": [
+        "circuit design", "pcb design", "altium", "eagle", "verilog", "vhdl",
+        "fpga", "microcontrollers", "oscilloscope", "signal processing",
+        "analog design", "digital design", "embedded systems", "spice"
+    ],
+    "VLSI Engineer": [
+        "verilog", "vhdl", "rtl design", "synthesis", "timing analysis",
+        "fpga", "asic", "cadence", "synopsys", "physical design",
+        "dft", "verification", "uvm", "system verilog", "timing closure"
+    ],
+
+    # ── Chemical & Biotech ───────────────────────────────────────
+    "Chemical Engineer": [
+        "process design", "aspen plus", "hysys", "heat exchangers",
+        "distillation", "reaction engineering", "mass transfer", "fluid dynamics",
+        "process safety", "piping", "p&id", "matlab", "six sigma"
+    ],
+    "Biomedical Engineer": [
+        "medical devices", "fda regulations", "matlab", "signal processing",
+        "image processing", "biomechanics", "clinical trials", "iso 13485",
+        "python", "labview", "biosensors", "regulatory affairs"
     ],
 }
 
@@ -119,7 +249,7 @@ class ResumeAnalysisAgent:
             else:
                 return self.extract_text_from_pdf(uploaded_file)
         except Exception as e:
-            return f"Error: {str(e)}"
+            return f"Error: {str(e)}" 
 
     def create_vector_store_for_pdf(self, text: str) -> FAISS:
         splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=100)
@@ -158,16 +288,13 @@ class ResumeAnalysisAgent:
         strengths = []
         missing_skills = []
 
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            future_to_skill = {executor.submit(self.check_skill_match, skill): skill for skill in keywords}
-            for future in as_completed(future_to_skill):
-                skill = future_to_skill[future]
-                score = future.result()
-                skill_scores[skill] = score
-                if score >= 4.0:
-                    strengths.append(skill)
-                else:
-                    missing_skills.append(skill)
+        for skill in keywords:
+            score = self.check_skill_match(skill)
+            skill_scores[skill] = score
+            if score >= 4.0:
+                strengths.append(skill)
+            else:
+                missing_skills.append(skill)
 
         if keywords:
             matched = len(strengths)
@@ -335,20 +462,15 @@ class ResumeAnalysisAgent:
         return result
 
     def ask_question(self, question: str) -> str:
-        """
-        High-accuracy Q&A using enhanced background scanning & raw-text fallback injection.
-        Ensures metadata, headers, names, and lists of multi-item projects are perfectly captured.
-        """
         if not self.resume_text:
             return "Please provide an uploaded resume profile first."
 
         llm = ChatGroq(
             groq_api_key=self.api_key,
             model_name="llama-3.3-70b-versatile",
-            temperature=0.1  # Low temperature for factual precision
+            temperature=0.1
         )
 
-        # 1. Grab maximum semantic chunk coverage
         retrieved_docs = []
         if self.vector_store:
             try:
@@ -358,8 +480,6 @@ class ResumeAnalysisAgent:
                 pass
 
         chunks_context = "\n---\n".join(retrieved_docs)
-        
-        # 2. Inject raw layout context to catch items decoupled by standard parsing loops
         full_document_fallback = self.resume_text[:6000]
 
         prompt = f"""
