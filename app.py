@@ -12,17 +12,12 @@ load_dotenv()
 st.set_page_config(page_title="Recruitment Assistant", layout="wide")
 
 st.sidebar.header("Configuration Settings")
-
 api_key = os.getenv("GROQ_API_KEY", "")
 cut_off = st.sidebar.slider("Minimum Screening Threshold", min_value=50, max_value=90, value=70, step=5)
-
-role_options = list(ROLE_KEYWORDS.keys())
-selected_role = st.sidebar.selectbox("Target Position Classification", options=role_options)
 
 st.title("Smart Recruitment Assistant")
 st.subheader("Automated Document Verification and Technical Evaluation Pipeline")
 
-# Restored & Optimized Document Verification Q&A
 tab1, tab2, tab3, tab4 = st.tabs([
     "Resume Alignment Matrix", 
     "Document Verification Q&A",
@@ -39,7 +34,12 @@ else:
 
 st.write("---")
 st.header("Document Input Settings")
+
+role_options = list(ROLE_KEYWORDS.keys())
+selected_role = st.selectbox("Target Position Classification", options=role_options)
+
 custom_jd = st.text_area("Job Specification Document (Optional)", placeholder="Paste target requirements definition here...")
+
 uploaded_file = st.file_uploader("Candidate Profile Document (PDF, TXT)", type=["pdf", "txt", "PDF", "TXT"])
 
 if uploaded_file and 'agent' in st.session_state:
@@ -72,7 +72,6 @@ with tab1:
                     with col2:
                         st.subheader("Process Metadata")
                         st.write(f"**Verification Methodology:** {res['analysis_type']}")
-                    
                     st.write("### Target Requirements Discrepancy Findings")
                     st.write(res["weakness_details"])
                 else:
