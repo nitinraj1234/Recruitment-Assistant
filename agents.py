@@ -1,15 +1,10 @@
-"""
-agents.py - Smart Recruitment Assistant (Optimized for Groq & HuggingFace)
-Core AI Agent Class: ResumeAnalysisAgent
-"""
-
 import os
 import re
 import io
 import json
 import tempfile
 from io import StringIO
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 import PyPDF2
 from dotenv import load_dotenv
@@ -23,7 +18,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 load_dotenv()
 
 ROLE_KEYWORDS = {
-    # ── Original roles ──────────────────────────────────────────
+   
     "AI Engineer": [
         "python", "machine learning", "deep learning", "tensorflow", "pytorch",
         "nlp", "computer vision", "mlops", "hugging face", "reinforcement learning",
@@ -66,40 +61,18 @@ ROLE_KEYWORDS = {
         "data visualization", "pandas", "reporting", "a/b testing",
         "google analytics", "looker", "r"
     ],
-
-    # ── Software Engineering ─────────────────────────────────────
-    "Software Engineer": [
-        "python", "java", "c++", "data structures", "algorithms", "object oriented programming",
-        "system design", "rest api", "sql", "git", "testing", "debugging",
-        "agile", "code review", "design patterns", "multithreading"
-    ],
     "Software Development Engineer (SDE)": [
         "data structures", "algorithms", "c++", "java", "python", "system design",
         "object oriented design", "dynamic programming", "graphs", "trees",
         "rest api", "sql", "git", "low level design", "high level design"
-    ],
-    "Mobile Engineer (Android)": [
-        "android", "kotlin", "java", "android sdk", "jetpack compose", "mvvm",
-        "retrofit", "room database", "coroutines", "firebase", "gradle",
-        "material design", "rest api", "unit testing", "google play"
-    ],
-    "Mobile Engineer (iOS)": [
-        "swift", "ios", "xcode", "swiftui", "uikit", "core data", "combine",
-        "mvvm", "rest api", "cocoapods", "spm", "firebase", "app store",
-        "objective-c", "instruments", "testing"
     ],
     "Embedded Systems Engineer": [
         "c", "c++", "rtos", "microcontrollers", "arm", "embedded linux",
         "uart", "spi", "i2c", "can bus", "firmware", "bare metal",
         "signal processing", "hardware debugging", "oscilloscope", "pcb"
     ],
-    "Systems Engineer": [
-        "linux", "c", "c++", "operating systems", "memory management", "networking",
-        "tcp/ip", "multithreading", "concurrency", "system calls", "kernel",
-        "performance tuning", "bash scripting", "gdb", "valgrind"
-    ],
 
-    # ── Cloud & Infrastructure ───────────────────────────────────
+   
     "Cloud Engineer": [
         "aws", "gcp", "azure", "terraform", "kubernetes", "docker",
         "cloud architecture", "iam", "vpc", "load balancing", "auto scaling",
@@ -127,7 +100,7 @@ ROLE_KEYWORDS = {
         "python", "burp suite", "zero trust"
     ],
 
-    # ── Data & ML ────────────────────────────────────────────────
+  
     "ML Engineer": [
         "python", "machine learning", "pytorch", "tensorflow", "scikit-learn",
         "mlops", "model training", "feature engineering", "model deployment",
@@ -149,51 +122,44 @@ ROLE_KEYWORDS = {
         "openai api", "hugging face", "vector database", "pinecone", "faiss",
         "python", "langsmith", "agents", "function calling", "embeddings"
     ],
-
-    # ── Mechanical & Civil ───────────────────────────────────────
-    "Mechanical Engineer": [
-        "autocad", "solidworks", "catia", "ansys", "fea", "cfd",
-        "thermodynamics", "fluid mechanics", "manufacturing", "gd&t",
-        "materials science", "design for manufacturing", "matlab", "heat transfer"
-    ],
-    "Civil Engineer": [
-        "autocad", "staad pro", "revit", "structural analysis", "concrete design",
-        "steel design", "foundation design", "surveying", "project management",
-        "quantity estimation", "construction management", "ms project", "is codes"
-    ],
-    "Structural Engineer": [
-        "structural analysis", "staad pro", "etabs", "safe", "revit",
-        "concrete design", "steel design", "earthquake engineering",
-        "foundation design", "finite element analysis", "is codes", "eurocode"
-    ],
-
-    # ── Electrical & Electronics ─────────────────────────────────
-    "Electrical Engineer": [
-        "circuit design", "power systems", "autocad electrical", "plc",
-        "scada", "matlab", "simulink", "protection systems", "transformers",
-        "motor drives", "renewable energy", "high voltage", "load flow"
-    ],
-    "Electronics Engineer": [
-        "circuit design", "pcb design", "altium", "eagle", "verilog", "vhdl",
-        "fpga", "microcontrollers", "oscilloscope", "signal processing",
-        "analog design", "digital design", "embedded systems", "spice"
-    ],
     "VLSI Engineer": [
         "verilog", "vhdl", "rtl design", "synthesis", "timing analysis",
         "fpga", "asic", "cadence", "synopsys", "physical design",
         "dft", "verification", "uvm", "system verilog", "timing closure"
     ],
 
-    # ── Chemical & Biotech ───────────────────────────────────────
-    "Chemical Engineer": [
-        "process design", "aspen plus", "hysys", "heat exchangers",
-        "distillation", "reaction engineering", "mass transfer", "fluid dynamics",
-        "process safety", "piping", "p&id", "matlab", "six sigma"
+  
+    "Product Manager (PM)": [
+        "product roadmap", "user stories", "agile", "scrum", "stakeholder management",
+        "market research", "competitive analysis", "product strategy", "kpi",
+        "wireframing", "jira", "a/b testing", "go-to-market", "prioritization", "okr"
     ],
-    "Biomedical Engineer": [
-        "medical devices", "fda regulations", "matlab", "signal processing",
-        "image processing", "biomechanics", "clinical trials", "iso 13485",
-        "python", "labview", "biosensors", "regulatory affairs"
+    "UI/UX Designer": [
+        "figma", "sketch", "adobe xd", "user research", "wireframing", "prototyping",
+        "usability testing", "information architecture", "interaction design",
+        "visual design", "design systems", "accessibility", "user flows", "typography"
+    ],
+    "Strategy Consultant": [
+        "business strategy", "market analysis", "financial modeling", "powerpoint",
+        "excel", "stakeholder management", "problem solving", "due diligence",
+        "competitive landscape", "go-to-market strategy", "mba", "consulting frameworks",
+        "mckinsey", "bcg", "data analysis", "presentation"
+    ],
+    "Business Analyst": [
+        "requirements gathering", "business process", "sql", "excel", "power bi",
+        "tableau", "stakeholder management", "use cases", "gap analysis",
+        "process mapping", "jira", "agile", "data analysis", "brd", "functional specification"
+    ],
+    "Financial Analyst": [
+        "financial modeling", "excel", "valuation", "dcf", "financial statements",
+        "budgeting", "forecasting", "variance analysis", "bloomberg", "sql",
+        "power bi", "accounting", "cfa", "python", "investment analysis"
+    ],
+    "R&D / Process Development Engineer": [
+        "research", "experimental design", "data analysis", "python", "matlab",
+        "literature review", "prototyping", "process optimization", "six sigma",
+        "statistical analysis", "lab techniques", "technical writing", "patent",
+        "scale-up", "doe", "simulation"
     ],
 }
 
@@ -207,8 +173,7 @@ class ResumeAnalysisAgent:
 
         self.resume_text = None
         self.jd_text = None
-        self.vector_store = None       
-        self.jd_vector_store = None    
+        self.vector_store = None         
         self.analysis_result = None
         self.extracted_skills = None
         self.weaknesses = None
@@ -384,7 +349,7 @@ class ResumeAnalysisAgent:
         skills = [s.strip().lower() for s in skills_raw.split(",") if s.strip()]
         return skills
 
-    def semantic_skill_analysis(self, resume_skills: list, jd_skills: list) -> dict:
+    def semantic_skill_analysis(self, jd_skills: list) -> dict:
         if not self.vector_store:
             return {"error": "Vector store not found."}
 
@@ -430,13 +395,11 @@ class ResumeAnalysisAgent:
 
         if custom_jd_text:
             self.jd_text = custom_jd_text
-            if not self.jd_vector_store:
-                self.jd_vector_store = self.create_vector_store_for_text(custom_jd_text)
-
+            
             jd_skills = self.extract_skills_from_jd(custom_jd_text)
             self.extracted_skills = jd_skills
 
-            analysis = self.semantic_skill_analysis([], jd_skills)
+            analysis = self.semantic_skill_analysis(jd_skills)
             result.update(analysis)
 
             weakness = self.analyse_resume_weakness(jd_skills)
