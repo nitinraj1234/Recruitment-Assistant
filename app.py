@@ -119,3 +119,12 @@ with tab4:
                 st.markdown(plan)
         else:
             st.warning("No resume found. Please upload a file to begin")
+
+
+st.markdown(
+    """
+    <img src="https://www.hitwebcounter.com/counter/counter.php?page=21503711&style=0024&nbdigits=5&type=page" 
+         style="display:none; width:0px; height:0px; border:0;">
+    """, 
+    unsafe_allow_html=True
+)
