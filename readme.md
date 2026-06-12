@@ -20,15 +20,19 @@ Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 3. **Custom Interview Questions:** Generates interview questions tailored to the candidate's specific profile gaps. You can choose the difficulty level (Easy, Medium, Hard) and the type of question (Technical, Behavioral, or Situational).
 4. **Document Chatbot:** A simple search box where you can ask direct questions about the resume, like *"How many years of experience does this person have with React?"* or *"What did they do at their last company?"*
 
+
 ---
 
-## How the Scoring Changes with Custom Job Descriptions
+## How the App Works
 
-The app handles matching in two different ways depending on what you select:
+When you upload a PDF resume, the app uses a python package (`PyPDF2`) to extract all the raw text. It then breaks that text down into small, overlapping chunks and creates a mini digital map of the sentences using word context (these are called vector embeddings). This map is stored temporarily in your computer's short-term memory using a lightweight vector lookup database called FAISS.
 
-* **Using a Pre-set Role:** If you pick a role from the dropdown menu (like *AI Engineer* or *Backend Engineer*), the app scores the resume against a built-in list of industry-standard keywords.
-* **Using a Custom Job Description (JD):** You can also paste text into the **"Job Specification Document"** box *after* selecting a role. When you do this, the app ignores the standard role list. Instead, it runs an AI model (Llama 3.3) to read through the pasted text, automatically extracts the most important keywords from that specific JD, and runs a brand-new similarity search against the resume.
+Depending on what you select in the settings panel, matching happens in one of two ways:
 
+1. **Using a Pre-set Role:** If you choose a standard job title from the menu (like *Data Scientist*), the app takes our built-in list of key industry skills for that job and searches your resume's digital map. It looks for matching skills based on how close the concepts are—not just exact words.
+2. **Using a Custom Job Description:** If you paste a custom job description into the text box *after* selecting a role, the app skips the built-in list. It passes the pasted job text to an AI model (`Llama 3.3 70B` via Groq), extracts the most important skills from that specific text, and runs a fresh similarity search against your resume using those custom keywords.
+
+Once the search is done, the app calculates your final score, highlights which keywords were found or missed, and uses the AI model to generate custom interview questions and tips to fix your resume based on your exact skill gaps.
 ---
 
 ## Quick Setup for Developers
