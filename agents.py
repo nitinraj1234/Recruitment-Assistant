@@ -4,6 +4,8 @@ import io
 import json
 import tempfile
 from io import StringIO
+
+
 import PyPDF2
 from dotenv import load_dotenv
 
@@ -70,7 +72,7 @@ ROLE_KEYWORDS = {
         "signal processing", "hardware debugging", "oscilloscope", "pcb"
     ],
 
-  
+   
     "Cloud Engineer": [
         "aws", "gcp", "azure", "terraform", "kubernetes", "docker",
         "cloud architecture", "iam", "vpc", "load balancing", "auto scaling",
@@ -171,8 +173,7 @@ class ResumeAnalysisAgent:
 
         self.resume_text = None
         self.jd_text = None
-        self.vector_store = None       
-        self.jd_vector_store = None    
+        self.vector_store = None         
         self.analysis_result = None
         self.extracted_skills = None
         self.weaknesses = None
@@ -348,7 +349,7 @@ class ResumeAnalysisAgent:
         skills = [s.strip().lower() for s in skills_raw.split(",") if s.strip()]
         return skills
 
-    def semantic_skill_analysis(self, resume_skills: list, jd_skills: list) -> dict:
+    def semantic_skill_analysis(self, jd_skills: list) -> dict:
         if not self.vector_store:
             return {"error": "Vector store not found."}
 
@@ -394,13 +395,11 @@ class ResumeAnalysisAgent:
 
         if custom_jd_text:
             self.jd_text = custom_jd_text
-            if not self.jd_vector_store:
-                self.jd_vector_store = self.create_vector_store_for_text(custom_jd_text)
-
+            
             jd_skills = self.extract_skills_from_jd(custom_jd_text)
             self.extracted_skills = jd_skills
 
-            analysis = self.semantic_skill_analysis([], jd_skills)
+            analysis = self.semantic_skill_analysis(jd_skills)
             result.update(analysis)
 
             weakness = self.analyse_resume_weakness(jd_skills)
