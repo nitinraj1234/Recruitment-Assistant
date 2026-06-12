@@ -15,11 +15,10 @@ Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ## What the App Does
 
-1. **Smart Resume Scoring:** Calculates a match percentage. It uses smart vector search instead of basic keyword matching, meaning it understands related skills even if you didn't use the exact word.
-2. **Resume Tooltips & Improvement Guide:** Gives you a clear checklist on how to fix sections of your resume (like your Experience or Projects) to better line up with the job requirements.
-3. **Custom Interview Questions:** Generates interview questions tailored to the candidate's specific profile gaps. You can choose the difficulty level (Easy, Medium, Hard) and the type of question (Technical, Behavioral, or Situational).
-4. **Document Chatbot:** A simple search box where you can ask direct questions about the resume, like *"How many years of experience does this person have with React?"* or *"What did they do at their last company?"*
-
+1. **Resume Screening Report:** Calculates an overall profile match percentage layout. It uses smart vector similarity lookups instead of basic keyword tracking, meaning it understands related skills even if you didn't use the exact matching word.
+2. **Document Verification Q&A:** A clean search sandbox where you can ask direct questions about the document data, like *"How many years of experience does this person have with React?"* or *"What did they do at their last company?"*
+3. **Interview Questions:** Generates localized assessment questions tailored specifically to the candidate's core profile gaps. You can tune the output complexity tiers (Easy, Medium, Hard) and select the specific evaluation domain (Technical, Behavioral, or Situational).
+4. **Refinement Suggestions:** Delivers an actionable blueprint on how to restructure or polish target blocks of your document (such as your Professional Summary, Work Experience, or Projects layout) to better align with target requirements.
 
 ---
 
@@ -33,6 +32,7 @@ Depending on what you select in the settings panel, matching happens in one of t
 2. **Using a Custom Job Description:** If you paste a custom job description into the text box *after* selecting a role, the app skips the built-in list. It passes the pasted job text to an AI model (`Llama 3.3 70B` via Groq), extracts the most important skills from that specific text, and runs a fresh similarity search against your resume using those custom keywords.
 
 Once the search is done, the app calculates your final score, highlights which keywords were found or missed, and uses the AI model to generate custom interview questions and tips to fix your resume based on your exact skill gaps.
+
 ---
 
 ## Quick Setup for Developers
