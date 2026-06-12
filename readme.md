@@ -2,8 +2,6 @@
 
 A resume screening and interview preparation tool built with Streamlit, LangChain, and Groq. It takes a candidate's resume, scores it against a target role or a custom job description, and generates interview questions and improvement suggestions — all without storing any data between sessions.
 
-To try the demo, you will need to bring your own Groq API key. It is free to get one at console.groq.com — just sign up, create a key, and paste it into the sidebar when the app loads. No key is stored anywhere; it only lives in your browser session.
-
 Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
@@ -47,6 +45,17 @@ If your target role is not in this list, paste a job description instead and the
 
 ---
 
+## How to use the demo
+
+1. Open the live demo link above
+2. In the **sidebar on the left**, set the **Minimum Screening Threshold** (default is 70)
+3. In the **sidebar**, select your **Target Position** from the dropdown
+4. Scroll down to **Document Input Settings** and upload your resume as a PDF or TXT file
+5. Optionally paste a job description if you want to match against a specific role instead of the built-in profile
+6. Use the four tabs to run analysis, ask questions, generate interview questions, or get improvement suggestions
+
+---
+
 ## How the scoring works
 
 When a resume is uploaded, the text is split into overlapping chunks and converted into vector embeddings using the `all-MiniLM-L6-v2` model from HuggingFace. These are stored in a FAISS index for fast similarity search.
@@ -57,12 +66,11 @@ When a job description is provided, the Groq LLM (Llama 3.3 70B) first extracts 
 
 ---
 
-## Setup
+## Local Setup
 
 **Prerequisites**
 
 - Python 3.11
-- A Groq API key (free tier works, get one at console.groq.com)
 
 **Installation**
 
@@ -72,17 +80,21 @@ cd Recruitment-Assistant
 pip install -r requirements.txt
 ```
 
+**Configuration**
 
+Create a `.env` file in the project root:
 
-## Usage
+```
+GROQ_API_KEY=your_groq_api_key_here
+```
 
-1. Enter your Groq API key in the left panel
-2. Set the minimum score threshold (default is 70)
-3. Select the target role from the dropdown, or paste a job description in the text area below
-4. Upload the resume as a PDF or TXT file
-5. Use the four tabs to run analysis, ask questions, generate interview questions, or get improvement suggestions
+Get a free key at [console.groq.com](https://console.groq.com).
 
-The session is stateless. Nothing is saved after you close the browser tab.
+**Run**
+
+```bash
+streamlit run app.py
+```
 
 ---
 
@@ -94,7 +106,8 @@ Recruitment-Assistant/
 ├── agents.py           # Core agent class, scoring logic, LLM calls
 ├── ui.py               # CSS styling and display helper functions
 ├── requirements.txt    # Python dependencies
-└── runtime.txt         # Python version pin for Streamlit Cloud
+├── runtime.txt         # Python version pin for Streamlit Cloud
+└── .env                # API key (local only, not committed to GitHub)
 ```
 
 ---
