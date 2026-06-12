@@ -1,143 +1,64 @@
 # Recruitment Assistant
 
-A resume screening and interview preparation tool built with Streamlit, LangChain, and Groq. It takes a candidate's resume, scores it against a target role or a custom job description, and generates interview questions and improvement suggestions — all without storing any data between sessions.
+A simple, fast resume screening and interview preparation app built with Streamlit, LangChain, and Groq. It scans a candidate's resume, grades it against a target job role or a custom job description, and drops a list of tailored interview questions and resume improvement notes—all on a temporary basis without storing any candidate data between reloads.
 
 Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
 
-## Who is this for
+## What it's used for
 
-**Recruiters** use it to screen resumes faster. Instead of reading every document manually, you upload the resume, select the role, and get a score with a clear breakdown of what matched and what did not. You can also auto-generate role-specific interview questions tailored to that candidate's actual profile, which saves significant prep time before a call.
-
-**Students and job seekers** use it to understand exactly why their resume is getting filtered out. You can paste a real job description, upload your resume, and see which skills the system finds and which ones it misses. The improvement suggestions tell you specifically what to add or reframe in each section to increase your score for that role. Many students use it to test their resume against multiple roles before deciding where to apply.
-
----
-
-## What it does
-
-There are four main functions:
-
-**Resume Scoring** — The tool compares the resume against a skill list for the selected role, or extracts skills directly from a pasted job description. It uses vector similarity search rather than simple keyword matching, so it can recognise related skills even when the exact keyword is not present. The output is a score out of 100 with a configurable pass threshold.
-
-**Document Q&A** — Ask free-form questions about the resume and get direct answers. Useful for recruiters who want to quickly verify specifics like years of experience, previous job titles, or listed projects without reading the full document. It uses a combination of semantic retrieval and raw document scanning to stay accurate.
-
-**Interview Question Generator** — Generates a structured set of interview questions based on the candidate's resume, the target role, and the skill gaps identified during scoring. You can choose between Technical, Behavioral, and Situational question types, set a difficulty level, and control how many questions are produced. For students, this is also a useful way to predict what an interviewer might ask you.
-
-**Resume Improvement Suggestions** — Gives section-by-section guidance on how to strengthen the resume for the target role. It focuses on the skills identified as missing and suggests how to frame existing experience to address those gaps. Students can use this before applying; recruiters can share the output as structured feedback to candidates.
+* **Recruiters & Hiring Managers:** Instead of manually scanning every line of a stack of PDFs, you can drop a resume in, pick a role context, and immediately see an estimated percentage match with a clean breakdown of what requirements were hit and what was missing. It also spins up contextual interview questions matched specifically to that applicant's skill gaps before a screening call.
+* **Job Seekers & Students:** Use it to check why your resume might be missing the mark. You can paste the exact job text you are targeting, upload your resume, and check exactly which skills are matching or going unnoticed. The improvement breakdown suggests exactly what keywords to add or reframe to raise your match likelihood.
 
 ---
 
-## Supported roles
+## Core Features
 
-The tool has built-in skill profiles for eight roles. When no job description is provided, scoring runs against the relevant profile.
-
-- AI Engineer
-- Backend Engineer
-- Frontend Engineer
-- Full Stack Engineer
-- Data Scientist
-- Data Engineer
-- DevOps Engineer
-- Data Analyst
-
-If your target role is not in this list, paste a job description instead and the tool will extract the skill requirements from it automatically.
+1. **Resume Match Scoring:** Compares an uploaded profile against target skills using vector proximity rather than rigid word matching (so it understands related concepts even if the exact keyword differs). Outputs a clean score against a customizable target filter.
+2. **Document Q&A Terminal:** A free-form question input box where you can interrogate the document file directly. Useful for pulling specific facts quickly—like confirming absolute years of experience, locating niche project achievements, or pulling details out without scrolling pages.
+3. **Interview Evaluator Engine:** Generates evaluation questions based directly on the intersection of the resume and the job criteria gaps. You can tune the output by selecting Technical, Behavioral, or Situational focuses, adjust the complexity tiers, and choose how many questions to produce.
+4. **Resume Improvement Roadmap:** Delivers a clear guide on how to restructure or polish particular blocks of your document. It focuses directly on fixing requirements gaps so you know exactly what points to flesh out with metrics before submitting.
 
 ---
 
-## How to use the demo
+## Supported Built-In Roles
 
-1. Open the live demo link above
-2. In the **sidebar on the left**, set the **Minimum Screening Threshold** (default is 70)
-3. In the **sidebar**, select your **Target Position** from the dropdown
-4. Scroll down to **Document Input Settings** and upload your resume as a PDF or TXT file
-5. Optionally paste a job description if you want to match against a specific role instead of the built-in profile
-6. Use the four tabs to run analysis, ask questions, generate interview questions, or get improvement suggestions
+If you don't have a specific job description on hand, the app features pre-configured engineering and corporate skill profiles for a variety of roles:
 
----
+* AI / ML / NLP / Generative AI Engineer
+* Backend / Frontend / Full Stack / SDE Engineer
+* Data Scientist / Data Engineer / Data Analyst
+* Cloud / DevOps / Platform / Network / Security Engineer
+* Embedded Systems / VLSI Engineer
+* Product Manager / Business Analyst / UI-UX Designer
+* Strategy Consultant / Financial Analyst
+* R&D / Process Development Engineer
 
-## How the scoring works
-
-When a resume is uploaded, the text is split into overlapping chunks and converted into vector embeddings using the `all-MiniLM-L6-v2` model from HuggingFace. These are stored in a FAISS index for fast similarity search.
-
-For each required skill, the tool runs a similarity search against this index. The distance score determines whether the skill is counted as a strong match, partial match, or missing. The final ATS score is the percentage of required skills that cleared the match threshold.
-
-When a job description is provided, the Groq LLM (Llama 3.3 70B) first extracts the key skills from the JD text, then runs the same vector matching process against those extracted skills.
+*Have a role not listed? Just paste the raw job details text directly into the text field and the app will parse requirements out automatically.*
 
 ---
 
-## Local Setup
+## How It Works Under the Hood
 
-**Prerequisites**
+When a file is loaded, PyPDF2 reads out the raw text lines. The app splits this text into small overlapping paragraphs and converts those segments into vector embeddings using a local `all-MiniLM-L6-v2` instance from HuggingFace. This collection is indexed inside an in-memory FAISS instance.
 
-- Python 3.11
+* When validating skills, the app queries your index with target keyword queries. The resulting vector distance defines whether a requirement is flagged as a strong match, a partial match, or a missing element.
+* When working with a custom job description, the app prompts a Llama 3.3 70B instance via Groq to pull a clean list of requirements, which are then passed into the exact same vector verification loop.
 
-**Installation**
+---
 
+## Local Development Setup
+
+### Prerequisites
+* Python 3.11
+* Git
+
+### Installation
 ```bash
-git clone https://github.com/nitinraj1234/Recruitment-Assistant.git
+# Clone the workspace repository
+git clone [https://github.com/nitinraj1234/Recruitment-Assistant.git](https://github.com/nitinraj1234/Recruitment-Assistant.git)
 cd Recruitment-Assistant
+
+# Install required Python packages
 pip install -r requirements.txt
-```
-
-**Configuration**
-
-Create a `.env` file in the project root:
-
-```
-GROQ_API_KEY=your_groq_api_key_here
-```
-
-Get a free key at [console.groq.com](https://console.groq.com).
-
-**Run**
-
-```bash
-streamlit run app.py
-```
-
----
-
-## Project structure
-
-```
-Recruitment-Assistant/
-├── app.py              # Streamlit UI and tab layout
-├── agents.py           # Core agent class, scoring logic, LLM calls
-├── ui.py               # CSS styling and display helper functions
-├── requirements.txt    # Python dependencies
-├── runtime.txt         # Python version pin for Streamlit Cloud
-└── .env                # API key (local only, not committed to GitHub)
-```
-
----
-
-## Dependencies
-
-| Package | Purpose |
-|---|---|
-| streamlit | Web interface |
-| langchain-groq | Groq LLM integration |
-| langchain-huggingface | HuggingFace embeddings |
-| langchain-community | FAISS vector store wrapper |
-| faiss-cpu | Vector similarity search |
-| sentence-transformers | Local embedding model |
-| PyPDF2 | PDF text extraction |
-| matplotlib | Score pie chart |
-| pandas | Data handling |
-| python-dotenv | Local environment variable loading |
-
----
-
-## Limitations
-
-- PDF extraction quality depends on how the PDF was created. Scanned image-based PDFs will not extract text properly.
-- The scoring is based on skill presence, not depth of experience. A candidate who mentioned Docker once scores the same as someone with five years of Kubernetes experience.
-- The tool works best with English-language resumes.
-- There is no persistent storage. Each session starts fresh.
-
----
-
-## License
-
-MIT
