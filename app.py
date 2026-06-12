@@ -122,9 +122,10 @@ with tab4:
 
 
 
+
 st.markdown(
     """
-    <img src="https://www.hitwebcounter.com/counter/counter.php?page=21503711&style=0005&nbdigits=5&type=page" 
+    <img src="https://www.hitwebcounter.com/counter/counter.php?page=21503711&style=0005&nbdigits=5&type=ip" 
          style="display:none; width:0px; height:0px; border:0;">
     """, 
     unsafe_allow_html=True
