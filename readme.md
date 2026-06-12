@@ -1,64 +1,42 @@
 # Recruitment Assistant
 
-A simple, fast resume screening and interview preparation app built with Streamlit, LangChain, and Groq. It scans a candidate's resume, grades it against a target job role or a custom job description, and drops a list of tailored interview questions and resume improvement notes—all on a temporary basis without storing any candidate data between reloads.
+This is a simple tool built with Streamlit, LangChain, and Groq that makes it easy to screen resumes and prepare for interviews. It reviews a candidate's resume, grades how well it fits a specific job, and points out exactly what is missing—all without saving any personal information or files.
 
 Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
 
-## What it's used for
+## Who is this for?
 
-* **Recruiters & Hiring Managers:** Instead of manually scanning every line of a stack of PDFs, you can drop a resume in, pick a role context, and immediately see an estimated percentage match with a clean breakdown of what requirements were hit and what was missing. It also spins up contextual interview questions matched specifically to that applicant's skill gaps before a screening call.
-* **Job Seekers & Students:** Use it to check why your resume might be missing the mark. You can paste the exact job text you are targeting, upload your resume, and check exactly which skills are matching or going unnoticed. The improvement breakdown suggests exactly what keywords to add or reframe to raise your match likelihood.
-
----
-
-## Core Features
-
-1. **Resume Match Scoring:** Compares an uploaded profile against target skills using vector proximity rather than rigid word matching (so it understands related concepts even if the exact keyword differs). Outputs a clean score against a customizable target filter.
-2. **Document Q&A Terminal:** A free-form question input box where you can interrogate the document file directly. Useful for pulling specific facts quickly—like confirming absolute years of experience, locating niche project achievements, or pulling details out without scrolling pages.
-3. **Interview Evaluator Engine:** Generates evaluation questions based directly on the intersection of the resume and the job criteria gaps. You can tune the output by selecting Technical, Behavioral, or Situational focuses, adjust the complexity tiers, and choose how many questions to produce.
-4. **Resume Improvement Roadmap:** Delivers a clear guide on how to restructure or polish particular blocks of your document. It focuses directly on fixing requirements gaps so you know exactly what points to flesh out with metrics before submitting.
+* **Recruiters & Hiring Managers:** Instead of reading every line of a huge stack of PDFs, you can upload a resume and instantly see a match score. The app shows you exactly which skills the candidate has and where they fall short. It also gives you a list of custom interview questions based on their skill gaps so you are ready for a screening call in seconds.
+* **Job Seekers:** You can check why your resume isn't getting past automatic filters. By selecting a target role or pasting a specific job description, you can see exactly which keywords the app catches and which ones it misses, helping you fix your resume before you apply.
 
 ---
 
-## Supported Built-In Roles
+## What the App Does
 
-If you don't have a specific job description on hand, the app features pre-configured engineering and corporate skill profiles for a variety of roles:
-
-* AI / ML / NLP / Generative AI Engineer
-* Backend / Frontend / Full Stack / SDE Engineer
-* Data Scientist / Data Engineer / Data Analyst
-* Cloud / DevOps / Platform / Network / Security Engineer
-* Embedded Systems / VLSI Engineer
-* Product Manager / Business Analyst / UI-UX Designer
-* Strategy Consultant / Financial Analyst
-* R&D / Process Development Engineer
-
-*Have a role not listed? Just paste the raw job details text directly into the text field and the app will parse requirements out automatically.*
+1. **Smart Resume Scoring:** Calculates a match percentage. It uses smart vector search instead of basic keyword matching, meaning it understands related skills even if you didn't use the exact word.
+2. **Resume Tooltips & Improvement Guide:** Gives you a clear checklist on how to fix sections of your resume (like your Experience or Projects) to better line up with the job requirements.
+3. **Custom Interview Questions:** Generates interview questions tailored to the candidate's specific profile gaps. You can choose the difficulty level (Easy, Medium, Hard) and the type of question (Technical, Behavioral, or Situational).
+4. **Document Chatbot:** A simple search box where you can ask direct questions about the resume, like *"How many years of experience does this person have with React?"* or *"What did they do at their last company?"*
 
 ---
 
-## How It Works Under the Hood
+## How the Scoring Changes with Custom Job Descriptions
 
-When a file is loaded, PyPDF2 reads out the raw text lines. The app splits this text into small overlapping paragraphs and converts those segments into vector embeddings using a local `all-MiniLM-L6-v2` instance from HuggingFace. This collection is indexed inside an in-memory FAISS instance.
+The app handles matching in two different ways depending on what you select:
 
-* When validating skills, the app queries your index with target keyword queries. The resulting vector distance defines whether a requirement is flagged as a strong match, a partial match, or a missing element.
-* When working with a custom job description, the app prompts a Llama 3.3 70B instance via Groq to pull a clean list of requirements, which are then passed into the exact same vector verification loop.
+* **Using a Pre-set Role:** If you pick a role from the dropdown menu (like *AI Engineer* or *Backend Engineer*), the app scores the resume against a built-in list of industry-standard keywords.
+* **Using a Custom Job Description (JD):** You can also paste text into the **"Job Specification Document"** box *after* selecting a role. When you do this, the app ignores the standard role list. Instead, it runs an AI model (Llama 3.3) to read through the pasted text, automatically extracts the most important keywords from that specific JD, and runs a brand-new similarity search against the resume.
 
 ---
 
-## Local Development Setup
+## Quick Setup for Developers
 
-### Prerequisites
-* Python 3.11
-* Git
+### 1. Download and Install
+Open your terminal and run these commands to clone the code and install the required packages:
 
-### Installation
 ```bash
-# Clone the workspace repository
 git clone [https://github.com/nitinraj1234/Recruitment-Assistant.git](https://github.com/nitinraj1234/Recruitment-Assistant.git)
 cd Recruitment-Assistant
-
-# Install required Python packages
 pip install -r requirements.txt
