@@ -4,7 +4,8 @@ This is a simple website built with Streamlit, LangChain, and Groq. It makes it 
 
 Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
----
+
+
 
 ## Who is this for?
 
@@ -13,7 +14,7 @@ Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
 
-## What the App Does
+## What the Website Does
 
 1. **Resume Screening Report:** This shows you a total match score percentage. It uses a smart vector store similarity search that understands related skills, so it still works even if you did not use the exact matching words.
 2. **Document Verification Q&A:** A simple search box where you can ask direct questions about the resume, like *"How many years of experience does this person have with React?"* or *"Where did they work last?"*
@@ -22,7 +23,17 @@ Live demo: https://recruitment-assistant-bauel4dzgwouw2klwyssxj.streamlit.app
 
 ---
 
-## How the App Works
+## How to Use It
+
+1. **Select a Position:** Pick a target job role from the dropdown menu in the center of the page.
+2. **(Optional) Paste a Job Description:** If you have a specific job description from a company website, paste the text into the large box.
+3. **Upload the Resume:** Drag and drop your candidate resume (must be a PDF) into the file uploader. 
+4. **Check the Report:** Head to the **Resume Screening Report** tab to look at your overall score circle and check which keywords passed or failed.
+5. **Chat with the Resume:** Open the **Document Verification Q&A** tab and type a free-form question to extract secret details from the file text.
+6. **Practice or Prep:** Use the **Interview Questions** and **Refinement Suggestions** tabs to see AI-generated mock interview prep questions and clear resume rewrite goals.
+
+---
+## How the Website Works
 
 When you upload a PDF resume, the app uses a python tool called `PyPDF2` to read all the text. Then, it splits that text into small pieces called chunks and makes a mini digital map of the sentences based on what the words mean (these are called vector embeddings). The app saves this map temporarily in a vectorstore called FAISS.
 
@@ -38,12 +49,13 @@ For the **Document Verification Q&A** tab, we use a technique called **RAG (Retr
 
 ---
 
-## Quick Setup for Developers
+## Tech Stack (Tools We Used)
 
-### 1. Download and Install
-Open your terminal and run these commands to download the code and install the packages:
+* **Frontend & UI:** `Streamlit` (To build the web interface and buttons quickly with Python).
+* **AI Model Engine:** `Groq API` running `Llama 3.3 70B` (For super-fast text generation and smart resume tips).
+* **AI Framework:** `LangChain` (To connect our prompt layouts, AI calls, and document chunking tools together).
+* **Vector Embeddings:** `Hugging Face` (`all-MiniLM-L6-v2` model to turn text chunks into vector embeddings ).
+* **Vector Database:** `FAISS` (A fast, local memory database to store vectors and perform semantic search ).
+* **PDF Reader:** `PyPDF2` (To extract raw text strings directly out of uploaded PDF resumes).
 
-```bash
-git clone [https://github.com/nitinraj1234/Recruitment-Assistant.git](https://github.com/nitinraj1234/Recruitment-Assistant.git)
-cd Recruitment-Assistant
-pip install -r requirements.txt
+---
