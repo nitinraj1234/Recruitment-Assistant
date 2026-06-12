@@ -1,7 +1,3 @@
-"""
-app.py - Corporate Frontend Configuration for Smart Recruitment Assistant
-"""
-
 import os
 import streamlit as st
 from dotenv import load_dotenv
