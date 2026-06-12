@@ -1,3 +1,4 @@
+
 import os
 import streamlit as st
 from dotenv import load_dotenv
@@ -12,13 +13,13 @@ api_key = os.getenv("GROQ_API_KEY", "")
 cut_off = st.sidebar.slider("Minimum Screening Threshold", min_value=50, max_value=90, value=70, step=5)
 
 st.title("Smart Recruitment Assistant")
-st.subheader("Automated Document Verification and Technical Evaluation Pipeline")
+st.subheader("Built for recruiters to screen talent, and candidates to ace the interview")
 
 tab1, tab2, tab3, tab4 = st.tabs([
-    "Resume Alignment Matrix", 
+    "Resume Screening Report", 
     "Document Verification Q&A",
-    "Technical Assessment Generation", 
-    "Optimization Refinement Strategy"
+    "Interview Questions", 
+    "Refinement Suggestions"
 ])
 
 if api_key:
@@ -39,23 +40,21 @@ custom_jd = st.text_area("Job Specification Document (Optional)", placeholder="P
 uploaded_file = st.file_uploader("Candidate Profile Document (PDF, TXT)", type=["pdf", "txt", "PDF", "TXT"])
 
 if uploaded_file and 'agent' in st.session_state:
-    with st.spinner("Processing text data and constructing search indexes..."):
+    with st.spinner("Processing documents..."):
         text_content = st.session_state.agent.extract_text_from_file(uploaded_file)
         if text_content and not text_content.startswith("Error"):
             st.session_state.agent.resume_text = text_content
             st.session_state.agent.vector_store = st.session_state.agent.create_vector_store_for_pdf(text_content)
-            st.success("Document verification vector structures updated successfully.")
+            st.success("Documents processed successfully")
         else:
             st.error(f"Processing error: {text_content}")
 
-
-# TAB 1: RESUME ALIGNMENT MATRIX
 
 with tab1:
     st.header("Evaluation Analytics Summary")
     if st.button("Run Profile Analysis", key="run_analysis"):
         if 'agent' in st.session_state and st.session_state.agent.resume_text:
-            with st.spinner("Executing alignment evaluation vectors..."):
+            with st.spinner("Analyzing resume ..."):
                 res = st.session_state.agent.analyse_resume(selected_role, custom_jd if custom_jd else None)
                 if "error" not in res:
                     col1, col2 = st.columns(2)
@@ -66,61 +65,57 @@ with tab1:
                         else:
                             st.error(res['reasoning'])
                     with col2:
-                        st.subheader("Process Metadata")
+                        st.subheader("")
                         st.write(f"**Verification Methodology:** {res['analysis_type']}")
-                    st.write("### Target Requirements Discrepancy Findings")
+                    st.write("### Requirement Mismatches")
                     st.write(res["weakness_details"])
                 else:
                     st.error(res["error"])
         else:
-            st.warning("Profile extraction requirements incomplete. Verify file inputs.")
+            st.warning("No resume found. Please upload a file to begin")
 
-
-# TAB 2: HIGH-ACCURACY DOCUMENT VERIFICATION Q&A
 
 with tab2:
     st.header("Profile Validation Terminal")
-    user_query = st.text_input("Enter explicit evaluation question:", placeholder="e.g., What is the candidate's name? List all listed projects.")
+    user_query = st.text_input("Enter evaluation question:", placeholder="e.g., What is the candidate's name? List all listed projects.")
     
     if st.button("Submit Query", key="submit_qa"):
         if 'agent' in st.session_state and st.session_state.agent.resume_text:
             if user_query.strip():
-                with st.spinner("Analyzing document context and executing audit lookups..."):
+                with st.spinner("Analyzing document for answer..."):
                     qa_response = st.session_state.agent.ask_question(user_query)
                     st.write("### Evaluation Output:")
                     st.write(qa_response)
             else:
-                st.warning("Please enter a valid audit query text.")
+                st.warning("Please enter a valid query text.")
         else:
-            st.warning("Processing baseline profile context missing. Upload a document first.")
+            st.warning("No resume found. Please upload a file to begin")
 
 
-# TAB 3: TECHNICAL ASSESSMENT GENERATION
 
 with tab3:
-    st.header("Target Screening Question Generator")
-    q_type = st.selectbox("Structural Logic Domain", ["Technical", "Behavioral", "Situational"])
-    diff = st.selectbox("Complexity Tier Level", ["Easy", "Medium", "Hard"])
-    count = st.slider("Target Question Volume", 3, 10, 5)
+    st.header("Assessment Questions Generator Terminal")
+    q_type = st.selectbox("Domain", ["Technical", "Behavioral", "Situational"])
+    diff = st.selectbox("Complexity Level", ["Easy", "Medium", "Hard"])
+    count = st.slider("Question Count", 3, 10, 5)
     
     if st.button("Build Assessment Questions"):
         if 'agent' in st.session_state and st.session_state.agent.resume_text:
-            with st.spinner("Formulating verification frameworks..."):
+            with st.spinner("Generating questions..."):
                 questions = st.session_state.agent.generate_interview_questions(selected_role, q_type, diff, count)
                 st.markdown(questions)
         else:
-            st.warning("Processing baseline profile context missing.")
+            st.warning("No resume found. Please upload a file to begin")
 
 
-# TAB 4: OPTIMIZATION REFINEMENT STRATEGY
 
 with tab4:
-    st.header("Profile Content Refinement Specifications")
-    target_section = st.selectbox("Target Content Domain", ["Professional Summary", "Work Experience", "Projects", "Skills Layout"])
-    if st.button("Generate Refinement Brief"):
+    st.header("Profile Content Refinement Terminal")
+    target_section = st.selectbox("Domain", ["Professional Summary", "Work Experience", "Projects", "Skills Layout"])
+    if st.button("Generate Refinement "):
         if 'agent' in st.session_state and st.session_state.agent.resume_text:
-            with st.spinner("Assembling discrepancy guidelines..."):
+            with st.spinner("Finding skills gaps..."):
                 plan = st.session_state.agent.improve_resume(target_section, selected_role)
                 st.markdown(plan)
         else:
-            st.warning("Processing baseline profile context missing.")
+            st.warning("No resume found. Please upload a file to begin")
