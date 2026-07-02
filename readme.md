@@ -40,7 +40,7 @@ When you upload a PDF resume, the app uses a python tool called `PyPDF2` to read
 Depending on what buttons you click in the sidebar, the matching works in two ways:
 
 1. **Using a Pre-set Role:** If you pick a normal job title from the menu (like *Data Scientist*), the app takes a built-in list of important skills for that job and searches your resume map. It looks for matching skills based on how close the ideas are, not just matching the exact letters.
-2. **Using a Custom Job Description:** If you paste a real job description into the text box *after* picking a role, the app skips the built-in list. It sends the text to a smart AI model (`Llama 3.3 70B` using Groq) to pull out the most important skills from that specific job description. Then, it runs semantic search on your resume using those custom keywords.
+2. **Using a Custom Job Description:** If you paste a real job description into the text box *after* picking a role, the app skips the built-in list. It sends the text to a smart AI model (`meta-llama/llama-4-scout-17b-16e-instruct` using Groq) to pull out the most important skills from that specific job description. Then, it runs semantic search on your resume using those custom keywords.
 
 After the search finishes, the app figures out your final score, highlights which skills were found or missed, and uses the AI model to make your custom interview questions and resume tips.
 
@@ -52,7 +52,7 @@ For the **Document Verification Q&A** tab, we use a technique called **RAG (Retr
 ## Tech Stack (Tools We Used)
 
 * **Frontend & UI:** `Streamlit` (To build the web interface and buttons quickly with Python).
-* **AI Model Engine:** `Groq API` running `Llama 3.3 70B` (For super-fast text generation and smart resume tips).
+* **AI Model Engine:** `Groq API` running `meta-llama/llama-4-scout-17b-16e-instruct` (For super-fast text generation and smart resume tips).
 * **AI Framework:** `LangChain` (To connect our prompt layouts, AI calls, and document chunking tools together).
 * **Vector Embeddings:** `Hugging Face` (`all-MiniLM-L6-v2` model to turn text chunks into vector embeddings ).
 * **Vector Database:** `FAISS` (A fast, local memory database to store vectors and perform semantic search ).
