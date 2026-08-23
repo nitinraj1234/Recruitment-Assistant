@@ -293,7 +293,7 @@ class ResumeAnalysisAgent:
 
         llm = ChatGroq(
             groq_api_key=self.api_key,
-            model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+            model_name="openai/gpt-oss-20b",
             temperature=0.3
         )
 
@@ -329,7 +329,7 @@ class ResumeAnalysisAgent:
     def extract_skills_from_jd(self, jd_text: str) -> list:
         llm = ChatGroq(
             groq_api_key=self.api_key,
-            model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+            model_name="openai/gpt-oss-20b",
             temperature=0.1
         )
 
@@ -430,7 +430,7 @@ class ResumeAnalysisAgent:
 
         llm = ChatGroq(
             groq_api_key=self.api_key,
-            model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+            model_name="openai/gpt-oss-20b",
             temperature=0.1
         )
 
@@ -475,7 +475,7 @@ class ResumeAnalysisAgent:
         if not self.resume_text:
             return "Please provide an uploaded resume profile first."
 
-        llm = ChatGroq(groq_api_key=self.api_key, model_name="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0.5)
+        llm = ChatGroq(groq_api_key=self.api_key, model_name="openai/gpt-oss-20b", temperature=0.5)
 
         strengths_context = ""
         if self.analysis_result:
@@ -505,7 +505,7 @@ class ResumeAnalysisAgent:
         if not self.resume_text:
             return "Please provide an uploaded resume profile first."
 
-        llm = ChatGroq(groq_api_key=self.api_key, model_name="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0.4)
+        llm = ChatGroq(groq_api_key=self.api_key, model_name="openai/gpt-oss-20b", temperature=0.4)
         weaknesses = self.analysis_result.get("weaknesses", []) if self.analysis_result else []
 
         prompt = f"""
